@@ -1,0 +1,39 @@
+@name Pepsi's Screw Reverser
+@inputs Reverser
+@outputs 
+@persist E:entity
+@trigger Reverser
+
+E=entity()
+
+if(first()|dupefinished()){
+
+
+
+A=1
+
+holoCreate(A)
+holoModel(A,"models/sprops/cylinders/size_5/cylinder_12x12.mdl")
+holoPos(A,E:toWorld(vec(0,0,-5)))
+holoMaterial(A,"models/proppertextures/rubber")
+holoColor(A,vec(255,255,255))
+holoParent(A,E)
+holoAng(A,E:toWorld(ang(0,90,0)))
+holoScale(A,vec(1,1,1))
+
+A=2
+
+holoCreate(A)
+holoModel(A,"models/anytrains/props/steam_reverserwheel_1.mdl")
+holoPos(A,E:toWorld(vec(0,0,0)))
+holoMaterial(A,"")
+holoColor(A,vec(255,255,255))
+holoParent(A,E)
+holoAng(2,E:toWorld(ang(0,0,0)))
+holoScale(A,vec(1,1,1))
+holoEntity(A):setSubMaterial(1,"models/proppertextures/acrylic_black")
+holoEntity(A):setSubMaterial(2,"models/proppertextures/acrylic_black")
+
+}
+
+holoAng(2,E:toWorld(ang(0,Reverser*270,0)))
