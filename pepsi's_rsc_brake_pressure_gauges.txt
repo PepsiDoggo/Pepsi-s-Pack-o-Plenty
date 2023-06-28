@@ -1,0 +1,168 @@
+@name Pepsi's RSC Brake Pressure Gauges
+@inputs BrakeInfo:array
+@persist Ang1 Ang2 Ang3 Ang4
+
+if(first()|dupefinished()){
+
+#V1.0
+
+#If you find problems, please tell me!
+
+Entity1=entity()
+
+A=1
+
+A++
+holoCreate(A)
+holoModel(A,"models/sprops/rectangles/size_1_5/rect_6x6x3.mdl")
+holoPos(A,Entity1:toWorld(vec(0,0,0)))
+holoMaterial(A,"models/proppertextures/acrylic")
+holoColor(A,vec(41))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,0,0)))
+holoScale(A,vec(1,1,1))
+
+A++
+holoCreate(A)
+holoModel(A,"models/sprops/cylinders/size_3/cylinder_6x3.mdl")
+holoPos(A,Entity1:toWorld(vec(3,0,0)))
+holoMaterial(A,"models/proppertextures/acrylic")
+holoColor(A,vec(41))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,0,0)))
+holoScale(A,vec(1,1,1))
+
+A++
+holoCreate(A)
+holoModel(A,"models/sprops/cylinders/size_3/cylinder_6x3.mdl")
+holoPos(A,Entity1:toWorld(vec(-3,0,0)))
+holoMaterial(A,"models/proppertextures/acrylic")
+holoColor(A,vec(41))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,0,0)))
+holoScale(A,vec(1,1,1))
+
+A++
+holoCreate(A)
+holoModel(A,"models/sprops/cylinders/size_3/cylinder_6x3.mdl")
+holoPos(A,Entity1:toWorld(vec(3,0,0)))
+holoMaterial(A,"models/proppertextures/acrylic")
+holoColor(A,vec(41))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,0,0)))
+holoScale(A,vec(1,1,1))
+
+### GAUGES
+
+A++
+holoCreate(A)
+holoModel(A,"models/gsgtrainprops/parts/cab/gauge_01.mdl")
+holoPos(A,Entity1:toWorld(vec(3,0,1.6)))
+holoMaterial(A,"")
+holoColor(A,vec(255))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(-90,-90,0)))
+holoScale(A,vec(1,1,1))
+holoEntity(A):setSubMaterial(3,"models/gsgtrainprops/cab/gauge_air_pitanco_160_1_black")
+holoSkin(A,1)
+
+A++
+holoCreate(A)
+holoModel(A,"models/gsgtrainprops/parts/cab/gauge_01.mdl")
+holoPos(A,Entity1:toWorld(vec(-3,0,1.6)))
+holoMaterial(A,"")
+holoColor(A,vec(255))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(-90,-90,0)))
+holoScale(A,vec(1,1,1))
+holoEntity(A):setSubMaterial(3,"models/gsgtrainprops/cab/gauge_air_pitanco_160_2_black")
+holoSkin(A,1)
+
+### GAUGE NEEDLES
+
+A++
+holoCreate(A)
+holoModel(A,"models/anytrains/props/detail/gauge_old_1_pointer.mdl")
+holoPos(A,Entity1:toWorld(vec(3,0,1.15)))
+holoMaterial(A,"")
+holoColor(A,vec(255))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,270,0)))
+holoScale(A,vec(1,1,1))
+holoMaterial(A,"wtp/metal_5")
+
+A++
+holoCreate(A)
+holoModel(A,"models/anytrains/props/detail/gauge_old_1_pointer.mdl")
+holoPos(A,Entity1:toWorld(vec(3,0,1.0)))
+holoMaterial(A,"")
+holoColor(A,vec(255,30,30))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,270,0)))
+holoScale(A,vec(1,1,1))
+holoMaterial(A,"wtp/metal_5")
+
+A++
+holoCreate(A)
+holoModel(A,"models/anytrains/props/detail/gauge_old_1_pointer.mdl")
+holoPos(A,Entity1:toWorld(vec(-3,0,1.15)))
+holoMaterial(A,"")
+holoColor(A,vec(255))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,270,0)))
+holoScale(A,vec(1,1,1))
+holoMaterial(A,"wtp/metal_5")
+
+A++
+holoCreate(A)
+holoModel(A,"models/anytrains/props/detail/gauge_old_1_pointer.mdl")
+holoPos(A,Entity1:toWorld(vec(-3,0,1.0)))
+holoMaterial(A,"")
+holoColor(A,vec(255,30,30))
+holoParent(A,Entity1)
+holoAng(A,Entity1:toWorld(ang(0,270,0)))
+holoScale(A,vec(1,1,1))
+holoMaterial(A,"wtp/metal_5")
+
+
+
+}
+
+
+MainRes = BrakeInfo[1,number]
+EqRes = BrakeInfo[2,number]
+BP = BrakeInfo[3,number]
+BC = BrakeInfo[5,number]
+
+if(Ang1 != EqRes){
+    timer("ref",100)
+    if(clk("ref")){
+        Ang1 = clamp(Ang1 + (EqRes - Ang1) / 2, 0, 160)
+        holoAng(8,entity():toWorld(ang(0,-Ang1*1.34-90,0)))
+    }
+}
+
+if(Ang2 != MainRes){
+    timer("ref",100)
+    if(clk("ref")){
+        Ang2 = clamp(Ang2 + (MainRes - Ang2) / 2, 0, 160)
+        holoAng(9,entity():toWorld(ang(0,-Ang2*1.34-90,0)))
+    }
+}
+
+if(Ang3 != BP){
+    timer("ref",100)
+    if(clk("ref")){
+        Ang3 = clamp(Ang3 + (BP - Ang3) / 2, 0, 160)
+        holoAng(10,entity():toWorld(ang(0,-Ang3*1.34-90,0)))
+    }
+}
+
+if(Ang4 != BC){
+    timer("ref",100)
+    if(clk("ref")){
+        Ang4 = clamp(Ang4 + (BC - Ang4) / 2, 0, 160)
+        holoAng(11,entity():toWorld(ang(0,-Ang4*1.34-90,0)))
+    }
+}
+
