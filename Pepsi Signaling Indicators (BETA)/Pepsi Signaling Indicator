@@ -1,0 +1,94 @@
+@name Pepsi Signaling Indicator
+@inputs Check NextSignalAspect:string NextSignalDescription:string NextSignalSpeed:string LastSignalAspect:string LastSignalDescription:string LastSignalSpeed:string
+@outputs Enable
+@persist
+@trigger 
+
+Version=" (v1.0,"
+MapEdition=" RSG Sunset)"
+setName("Pepsi Signaling Indicator"+Version+MapEdition)
+
+
+Enable=1
+
+interval(500)
+
+GreenAspects=array(
+"B-281 - CLEAR",
+"B-282 - APPROACH LIMITED",
+"B-282-A - APPROACH MEDIUM",
+"B-283 - LIMITED CLEAR",
+"B-283-A - MEDIUM CLEAR",
+"B-283-B - MEDIUM APPROACH MEDIUM",
+"B-283-C - MEDIUM APPROACH SLOW",
+"B-284 - APPROACH SLOW"
+)
+local IsGreenAspect=0
+foreach(I:number,GreenAspect:string = GreenAspects) {
+    if (GreenAspect==NextSignalAspect) {
+        IsGreenAspect=1
+        break
+    }
+}
+if (IsGreenAspect){
+Color1=vec(0,255,0)
+}
+
+YellowAspects=array(
+"B-285 - APPROACH",
+"B-286 - APPROACH MEDIUM",
+"B-288 - SLOW APPROACH"
+)
+local IsYellowAspect=0
+foreach(I:number,YellowAspect:string = YellowAspects) {
+    if (YellowAspect==NextSignalAspect) {
+        IsYellowAspect=1
+        break
+    }
+}
+if (IsYellowAspect){
+Color1=vec(255,255,0)
+}
+
+RedAspects=array(
+"B-290 - RESTRICTING",
+"B-291 - STOP AND PROCEED",
+"B-292 - STOP"
+)
+local IsRedAspect=0
+foreach(I:number,RedAspect:string = RedAspects) {
+    if (RedAspect==NextSignalAspect) {
+        IsRedAspect=1
+        break
+    }
+}
+if (IsRedAspect){
+Color1=vec(255,0,0)
+}
+
+
+Color3=vec(255)
+if(Check==1){
+chatPrint(Color3,"[PepSiI]")
+chatPrint(Color3,"Next signal is:")
+chatPrint(Color1,NextSignalAspect,". ",NextSignalSpeed,".")
+}
+#[
+print("Last signal is:")
+printColor(Color2,LastSignalAspect,". ",LastSignalSpeed,".")
+}
+
+"B-281 - CLEAR",
+"B-282 - APPROACH LIMITED",
+"B-282-A - APPROACH MEDIUM",
+"B-283 - LIMITED CLEAR",
+"B-283-A - MEDIUM CLEAR",
+"B-283-B - MEDIUM APPROACH MEDIUM",
+"B-283-C - MEDIUM APPROACH SLOW",
+"B-284 - APPROACH SLOW",
+"B-285 - APPROACH",
+"B-286 - APPROACH MEDIUM",
+"B-288 - SLOW APPROACH",
+"B-290 - RESTRICTING",
+"B-291 - STOP AND PROCEED",
+"B-292 - STOP"
