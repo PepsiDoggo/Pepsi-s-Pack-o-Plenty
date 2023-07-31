@@ -1,4 +1,4 @@
-@name Pepsi Signaling Indicator
+@name Pepsi Chat-Print Signaling Indicator
 @inputs Check NextSignalAspect:string NextSignalDescription:string NextSignalSpeed:string LastSignalAspect:string LastSignalDescription:string LastSignalSpeed:string
 @outputs Enable
 @persist
@@ -6,7 +6,7 @@
 
 Version=" (v1.0,"
 MapEdition=" RSG Sunset)"
-setName("Pepsi Signaling Indicator"+Version+MapEdition)
+setName("Pepsi Chat-Print Signaling Indicator"+Version+MapEdition)
 
 
 Enable=1
