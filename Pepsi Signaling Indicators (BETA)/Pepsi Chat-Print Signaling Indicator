@@ -9,6 +9,11 @@ MapEdition=" RSG Sunset)"
 setName("Pepsi Chat-Print Signaling Indicator"+Version+MapEdition)
 
 
+####----INSTRUCTIONS----####
+#[
+Spawn a TrakPak3 Cab Signal Box. Model does not matter.
+]#
+
 Enable=1
 
 interval(500)
