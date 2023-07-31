@@ -1,0 +1,103 @@
+@name Pepsi's Steam Headlamp Holo & Sprite-light v0.5 (Lamp 1)
+@inputs On Lamp:wirelink
+@outputs 
+@persist
+@trigger 
+@model models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl
+
+#[
+####----INSTRUCTIONS----####
+1 - Spawn an UNROPED lamp on the ground and freeze it
+2 - Wire Lamp:wirelink to the lamp
+3 - Refresh the E2
+4 - Wire On to anything of your choosing. E.g: Button, numpad, E2 output. 
+That's all!
+]#
+
+
+####----CONFIG----####
+
+Color=vec(255,200,120) #-Color of the sprites and lamp light.
+LampColor=vec(36) #-Color of the actual lamp model
+LampMat="models/proppertextures/acrylic_metal1_grimey" #-Material of the lamp
+
+####----DONT FUCK WITH ANYTHING UNDER THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING----####
+
+E=entity()
+E:setAlpha(0)
+LE=Lamp:entity()
+
+if(first() | dupefinished()){
+
+A=1
+holoCreate(A)
+holoPos(A,entity():toWorld(vec(0,0,0)))
+holoParent(A, entity())
+holoModel(A, "models/zexciv_train_stuff/misc/lamps/lamp_1.mdl")
+holoAng(A, entity():toWorld(ang(0,0,90)) )
+holoMaterial(A,"")
+holoColor(A,LampColor)
+holoEntity(A):setSubMaterial(2,LampMat)
+holoEntity(A)
+
+
+#WIRELINK SHIT
+LE:parentTo(E)
+LE:setAlpha(0)
+}
+LPos=E:toWorld(vec(-18,0,0))
+LAng=E:toWorld(ang(0,0,0))
+LE:setPos(LPos)
+LE:setAng(LAng)
+Lamp["On",number]=On
+Lamp["RGB",vector]=Color
+Lamp["Brightness",number]=2
+Lamp["Distance",number]=2048
+if(On){
+holoEntity(1):setSubMaterial(1,"models/proppertextures/bulb_offwhite_lit")
+}
+else{
+holoEntity(1):setSubMaterial(1,"models/proppertextures/bulb_offwhite_unlit")
+}
+
+A=10
+spriteSpawn(A,"sprites/physg_glow1")
+spriteEnable(A,On)
+spriteSetColor(A,Color)
+spriteSetScale(A,1)
+spriteSetAlpha(A,255)
+spriteSetPos(A,entity():toWorld(vec(-5,0,0)))
+A=11
+spriteSpawn(A,"sprites/physg_glow1")
+spriteEnable(A,On)
+spriteSetColor(A,Color)
+spriteSetScale(A,1)
+spriteSetAlpha(A,255)
+spriteSetPos(A,entity():toWorld(vec(-5,0,0)))
+
+
+#Sprites if you wanna mess around with the sprite shit
+#[
+sprites/light_glow03
+sprites/animglow01
+sprites/blueflare1
+sprites/blueglow1
+sprites/flare1
+sprites/glow01
+sprites/glow02
+sprites/glow03
+sprites/glow04
+sprites/glow06
+sprites/glow07
+sprites/glow08
+sprites/halo01
+sprites/lamphalo
+sprites/light_ignorez
+sprites/light_glow01
+sprites/light_glow02
+sprites/light_glow03
+sprites/redglow2
+sprites/redglow4
+sprites/fire
+sprites/fire1
+sprites/fire2
