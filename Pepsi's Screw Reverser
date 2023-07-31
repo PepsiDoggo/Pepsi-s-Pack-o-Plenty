@@ -6,6 +6,8 @@
 
 E=entity()
 
+Scale=0.75
+
 if(first()|dupefinished()){
 
 
@@ -14,26 +16,37 @@ A=1
 
 holoCreate(A)
 holoModel(A,"models/sprops/cylinders/size_5/cylinder_12x12.mdl")
-holoPos(A,E:toWorld(vec(0,0,-5)))
-holoMaterial(A,"models/proppertextures/rubber")
-holoColor(A,vec(255,255,255))
+holoPos(A,E:toWorld(vec(0,0,-5)*Scale))
+holoMaterial(A,"models/proppertextures/acrylic_grimey")
+holoColor(A,vec(41))
 holoParent(A,E)
 holoAng(A,E:toWorld(ang(0,90,0)))
-holoScale(A,vec(1,1,1))
+holoScale(A,vec(Scale))
 
 A=2
 
 holoCreate(A)
-holoModel(A,"models/anytrains/props/steam_reverserwheel_1.mdl")
-holoPos(A,E:toWorld(vec(0,0,0)))
-holoMaterial(A,"")
+holoModel(A,"models/sprops/rectangles_thin/size_0/rect_1_5x6x1_5.mdl")
+holoPos(A,E:toWorld(vec(0,0,0)*Scale))
+holoMaterial(A,"models/proppertextures/acrylic_grimey")
+holoColor(A,vec(80))
+holoParent(A,E)
+holoAng(A,E:toWorld(ang(0,90,0)))
+holoScale(A,vec(Scale))
+
+
+
+A=3
+
+holoCreate(A)
+holoModel(A,"models/anytrains/props/steam_reverserwheel_2.mdl")
+holoPos(A,E:toWorld(vec(0,0,0)*Scale))
+holoMaterial(A,"models/proppertextures/brass")
 holoColor(A,vec(255,255,255))
 holoParent(A,E)
 holoAng(2,E:toWorld(ang(0,0,0)))
-holoScale(A,vec(1,1,1))
-holoEntity(A):setSubMaterial(1,"models/proppertextures/acrylic_black")
-holoEntity(A):setSubMaterial(2,"models/proppertextures/acrylic_black")
+holoScale(A,vec(Scale))
 
 }
-
-holoAng(2,E:toWorld(ang(0,Reverser*270,0)))
+holoPos(2,E:toWorld(vec(4,0,Reverser*3-4)))
+holoAng(3,E:toWorld(ang(0,Reverser*270,0)))
