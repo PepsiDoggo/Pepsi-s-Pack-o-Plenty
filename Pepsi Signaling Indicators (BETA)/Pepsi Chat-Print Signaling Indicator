@@ -1,18 +1,37 @@
 @name Pepsi Chat-Print Signaling Indicator
-@inputs Check NextSignalAspect:string NextSignalDescription:string NextSignalSpeed:string LastSignalAspect:string LastSignalDescription:string LastSignalSpeed:string
+@inputs Check NextSignalAspect:string NextSignalSpeed:string LastSignalAspect:string LastSignalSpeed:string
 @outputs Enable
 @persist
 @trigger 
+#[
+####----INSTRUCTIONS----####
+
+Spawn a TrakPak3 Cab Signal Box. Model does not matter.
+
+Wire BasePropOverride on the signal box to the body or baseplate of your locomotive.
+
+Wire Enable to either the output on the E2 or to another preferred toggle.
+
+Wire the NextSignalAspect and NextSignalSpeed string inputs to the same named outputs of the signal box.
+
+(Optional) Wire Check to a non-toggled button, numpad, or output.
+
+Parent the E2 and Signal Box to the baseplate or body of your locomotive OR to a gate.
+
+Profit! You should now have a function chat print that displays the next signal ahead of you! Roll it past a signal and it should print!
+
+####----IMPORTANT NOTES----####
+
+The last signal display code is being worked on and will release with v1.1
+Working on figuring out how to configure the E2 for other TP3 maps such as Commonwealth, Wrefingley, and Rice Harbor if it's compatible.
+
+########################################################################################################
+####----DO NOT MESS WITH ANYTHING UNDER THIS LINE UNLESS YOU ABSOLUTELY KNOW WHAT YOU ARE DOING.----####
+]#
 
 Version=" (v1.0,"
 MapEdition=" RSG Sunset)"
 setName("Pepsi Chat-Print Signaling Indicator"+Version+MapEdition)
-
-
-####----INSTRUCTIONS----####
-#[
-Spawn a TrakPak3 Cab Signal Box. Model does not matter.
-]#
 
 Enable=1
 
@@ -74,6 +93,11 @@ Color1=vec(255,0,0)
 
 Color3=vec(255)
 if(Check==1){
+chatPrint(Color3,"[PepSiI]")
+chatPrint(Color3,"Next signal is:")
+chatPrint(Color1,NextSignalAspect,". ",NextSignalSpeed,".")
+}
+if(~NextSignalAspect){
 chatPrint(Color3,"[PepSiI]")
 chatPrint(Color3,"Next signal is:")
 chatPrint(Color1,NextSignalAspect,". ",NextSignalSpeed,".")
