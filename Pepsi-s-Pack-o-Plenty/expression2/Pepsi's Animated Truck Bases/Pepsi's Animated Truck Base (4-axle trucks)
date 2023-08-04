@@ -1,0 +1,190 @@
+@name Pepsi's Animated Truck Base (4-axle trucks)
+@inputs Truck:entity
+@outputs
+@persist Ang A Speed Spin E:entity
+@trigger 
+Version=" v1.0"
+setName("Pepsi's Animated Truck Base (4-axle trucks)"+Version)
+
+####----INSTRUCTIONS----####
+#[
+Spawn a truck. In this case, a Blomberg B as the default truck for the E2 is such.
+
+Wire Truck:entity to the prop
+
+Refresh the E2, and voila!
+]#
+####----CONFIG#
+
+
+#Mess with this if you opt to have the holos parent to the E2.
+#@model models/magtrains/trucks/barber_s2_rsg.mdl
+#Truck=entity()
+E=Truck
+
+#Uncomment to make it so that the E2 holos parent to the E2 itself. MAY NOT TRIGGER TP3 SPRUNG AND AUTO SWITCHES! 
+
+TruckModel="models/magtrainslocos/trucks/blomberg_b_rsg.mdl" #The model of the truck. 
+
+# MAKE SURE TO CHANGE THE WHEEL MATERIALS TO INVISIBLE
+
+TruckMat="models/proppertextures/acrylic_grimey" #The materical of the truck body.
+TruckColor=vec(120) #Color of the truck body, if the selected material allows.
+TruckPos=vec(0,0,0)
+
+Axle1Pos=vec(0,54,-26) #Position of axle 1
+Axle2Pos=vec(0,-54,-26) #Position of axle 2
+AxleDiameterMul=1.01 #Multiplier for diameter of axles. Model normally used is a 40 inch axle, so use that as a base for your math
+
+BearingModel="models/wam98_trainparts/wheel_bearings/timken/timken_ap2.mdl" #What model bearings you are using
+BearingMat="models/proppertextures/enamel_black" #The material of the bearing model.
+BearingColor=vec(120) #Color of the bearing, if material allows.
+BearingWidth=44 #How far out the bearings are
+BearingScale=1.5 #How big the bearings are
+
+BearingType=2 #Bodygroup to change the type of bearing. If the selected bearing model has no bodygroups, you can ignore this.
+
+TestSpin=0 #Makes axles spin so you can see how it looks when in motion
+    
+#DONT FUCK WITH THIS STUFF UNLESS YOU KNOW WHAT YOU'RE DOING!
+
+
+A=0
+if(first()|dupefinished()|duped()){
+#Bogey
+A=1
+holoCreate(A)
+holoModel(A,TruckModel)
+holoEntity(A)
+holoParent(A,E)
+
+holoBodygroup(A,1,2)
+holoBodygroup(A,2,2)
+holoBodygroup(A,3,2)
+holoBodygroup(A,4,2)
+
+holoPos(A,E:toWorld(TruckPos))
+holoAng(A,E:toWorld(ang(0,0,0)))
+
+holoMaterial(A,"")
+holoEntity(A):setSubMaterial(1,TruckMat)
+holoColor(A,TruckColor)
+
+holoEntity(A):setSubMaterial(8,"models/proppertextures/invisible")
+holoEntity(A):setSubMaterial(9,"models/proppertextures/invisible")
+holoEntity(A):setSubMaterial(10,"models/proppertextures/invisible")
+
+holoClipEnabled(A,1,0)
+
+#Wheelset 1
+
+A=2
+holoCreate(A)
+holoModel(A,"models/anytrains/props/locoparts/axle_40_rsg.mdl")
+holoEntity(A)
+holoParent(A,1)
+
+holoPos(A,holoEntity(1):toWorld(Axle1Pos))
+holoAng(A,holoEntity(1):toWorld(ang(0,90,0)))
+holoScale(A,vec(1,AxleDiameterMul,AxleDiameterMul))
+
+holoMaterial(A,"")
+holoColor(A,vec(255))
+
+holoClipEnabled(A,1,0)
+
+#Bearings 1
+
+A=3
+holoCreate(A)
+holoModel(A,BearingModel)
+holoEntity(A)
+holoParent(A,2)
+holoBodygroup(A,1,BearingType)
+
+holoPos(A,holoEntity(2):toWorld(vec(BearingWidth,0,0)))
+holoAng(A,holoEntity(2):toWorld(ang(0,0,0)))
+holoScale(A,vec(BearingScale))
+
+holoMaterial(A,BearingMat)
+holoColor(A,BearingColor)
+
+holoClipEnabled(A,1,0)
+
+
+A=4
+holoCreate(A)
+holoModel(A,BearingModel)
+holoEntity(A)
+holoParent(A,2)
+holoBodygroup(A,1,BearingType)
+
+holoPos(A,holoEntity(2):toWorld(vec(-BearingWidth,0,0)))
+holoAng(A,holoEntity(2):toWorld(ang(0,180,0)))
+holoScale(A,vec(BearingScale))
+
+holoMaterial(A,BearingMat)
+holoColor(A,BearingColor)
+
+holoClipEnabled(A,1,0)
+
+
+#Wheelset 2
+
+A=6
+holoCreate(A)
+holoModel(A,"models/anytrains/props/locoparts/axle_40_rsg.mdl")
+holoEntity(A)
+holoParent(A,1)
+
+holoPos(A,holoEntity(1):toWorld(Axle2Pos))
+holoAng(A,holoEntity(1):toWorld(ang(0,0,0)))
+holoScale(A,vec(1,AxleDiameterMul,AxleDiameterMul))
+
+holoMaterial(A,"")
+holoColor(A,vec(255))
+
+holoClipEnabled(A,1,0)
+
+A=7
+holoCreate(A)
+holoModel(A,BearingModel)
+holoEntity(A)
+holoParent(A,6)
+holoBodygroup(A,1,BearingType)
+
+holoPos(A,holoEntity(6):toWorld(vec(BearingWidth,0,0)))
+holoAng(A,holoEntity(6):toWorld(ang(0,0,90)))
+holoScale(A,vec(BearingScale))
+
+holoMaterial(A,BearingMat)
+holoColor(A,BearingColor)
+
+holoClipEnabled(A,1,0)
+
+
+A=8
+holoCreate(A)
+holoModel(A,BearingModel)
+holoEntity(A)
+holoParent(A,6)
+holoBodygroup(A,1,BearingType)
+
+holoPos(A,holoEntity(6):toWorld(vec(-BearingWidth,0,0)))
+holoAng(A,holoEntity(6):toWorld(ang(0,180,90)))
+holoScale(A,vec(BearingScale))
+
+holoMaterial(A,BearingMat)
+holoColor(A,BearingColor)
+
+holoClipEnabled(A,1,0)
+
+
+}
+# Velocity gathering code
+#The things that makes the wheels actually spin
+interval(75)
+Spin+=-E:velL():y()/6.25+TestSpin
+
+holoAng(2,E:toWorld(ang(0,0,Spin)))
+holoAng(6,E:toWorld(ang(0,0,Spin)))
