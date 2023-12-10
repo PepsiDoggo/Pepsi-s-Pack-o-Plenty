@@ -1,0 +1,232 @@
+@name Pepsi's EGP + Cam Controller RSC Display ver1.0
+@inputs [Cam EGP RSC]:wirelink [Base Driver]:entity [ThirdPerson] [BrakeInfo]:array
+@outputs
+@persist [MainRes EqRes BrakePipe BrakeCylinder Throttle Steam Temp Coal Water Slip Emergency Reverser BrakeWarn MPH KPH]
+@trigger 
+
+####----////INSTRUCTIONS FOR SETUP////----####
+#[
+STEP 1:
+Spawn Cam Controller, EGP, and the E2
+The Cam Controller should *preferrably* have all options except Free Movement checked
+EGP should be set to HUD
+
+STEP 2:
+Link EGP and Cam Controller to the engineeer's seat.
+
+STEP 3:
+Then, wire the following:
+
+RSC:wirelink to Create Wirelink of your locomotive's RSC chip
+Cam:wirelink to Cam Controller
+EGP:wirelink to EGP
+Base:entity to the locomotive's baseplate
+BrakeInfo:array to the same output of the RSC
+ThirdPerson to the same output of your loco's Pod Controller (assuming this is being installed on an already built locomotive!)
+
+Refresh your E2s. You might need to respawn the locomotive for the EGP to properly kick in. Once it does, voila! Make sure to parent all your parts!
+
+Feel free to send any comments, bugs, or suggestions my way!
+]#
+####----CONFIG----####
+
+#VISUAL
+CamPosition=vec(0,0,100) #Where the camera centers.
+CamDistance=100 #Minimum Distance for the camera
+ThirdPersonOnly=1 # If you want the GUI to only appear in ThirdPerson. 0 is no, 1 is yes
+WindowAlpha=150 # Opacity of the windows
+WindowPosition=vec2(200,500) # Window position. Recommended if your resolution results in the HUD window appearing in an unfavorable position
+#INFO
+MPH_or_KPH=2 # Which speed unit to use. 0 = MPH, 1 = KPH, 2 = Both
+
+# END OF CONFIG
+
+####----ACTUAL WORKY BITS PLEASE DONT FUCK WITH THEM OR ELSE YOU MIGHT BREAK SOMETHING* (*Unless you know what you are doing, then go ham)----####
+
+
+Cam["Parent",entity]=Base
+Cam["Position",vector]=CamPosition
+Cam["Activated",number]=ThirdPerson
+Cam["Distance",number]=CamDistance
+
+#BrakeInfo=RSC["BrakeInfo",array]
+
+MainRes=BrakeInfo[1,number]
+EqRes=BrakeInfo[2,number]
+BrakePipe=BrakeInfo[3,number]
+BrakeCylinder=BrakeInfo[5,number]
+MPH=RSC["MPH",number]
+KPH=RSC["KPH",number]
+Throttle=RSC["Throttle",number]
+Reverser=RSC["Reverser",number]
+Emergency=RSC["Emergency",number]
+Steam=RSC["Steam",number]
+Temp=RSC["Temp",number]
+Coal=RSC["Coal",number]
+Water=RSC["Water",number]
+Slip=RSC["Slip",number]
+
+#EGP bits
+
+#----Pepsi's guide for troubleshooting or customizing this shit:
+# SORTED BY LINE
+#63: Background for HUD
+#68: Loco Speed
+#76: Throttle & Reverser
+#87: Brake Info
+#101: Steam Info
+#115: Warnings
+
+if(first()|dupefinished()){
+
+# BACKGROUNDS
+
+EGP:egpRoundedBox(1,WindowPosition,vec2(200,400))
+EGP:egpAlpha(1,150)
+EGP:egpColor(1,vec(25))
+
+# LOCO SPEED
+
+Speed_Position=vec2(0,-175)
+
+EGP:egpText(12,"",vec2(-50,0)+Speed_Position)
+EGP:egpParent(12,1)
+
+# THROTTLE & REVERSER
+
+Throttle_Position=vec2(0,-175)
+
+EGP:egpText(20,"",vec2(-90,0)+Throttle_Position)
+EGP:egpText(21,"",vec2(-90,25)+Throttle_Position)
+for(N=20,29){
+#EGP:egpSize(N,15)
+EGP:egpParent(N,1)
+}
+
+# BRAKE INF0
+
+Brake_Info_Position=vec2(0,-100)
+
+
+EGP:egpText(31,"",vec2(-90,0)+Brake_Info_Position) # Main Res
+EGP:egpText(32,"",vec2(-90,25)+Brake_Info_Position) # Equalizing Res
+EGP:egpText(33,"",vec2(-90,50)+Brake_Info_Position) # Brake Pipe
+EGP:egpText(34,"",vec2(-90,75)+Brake_Info_Position) # Brake Cylinder
+for(N=30,39){
+#EGP:egpSize(N,12.5)
+EGP:egpParent(N,1)
+}
+
+
+
+# STEAM INF0 [MANUAL FIREMAN]
+
+Steam_Info_Position=vec2(0,25)
+
+
+EGP:egpText(71,"",vec2(-90,0)+Steam_Info_Position) # Main Res
+EGP:egpText(72,"",vec2(-90,25)+Steam_Info_Position) # Equalizing Res
+EGP:egpText(73,"",vec2(-90,50)+Steam_Info_Position) # Brake Pipe
+EGP:egpText(74,"",vec2(-90,75)+Steam_Info_Position) # Brake Cylinder
+for(N=70,79){
+#EGP:egpSize(N,12.5)
+EGP:egpParent(N,1)
+}
+# WARNINGS
+
+Warnings_Position=vec2(0,160)
+
+EGP:egpCircle(50,vec2(-60,0)+Warnings_Position,vec2(25,25))
+EGP:egpColor(50,vec(120,63,4))
+
+EGP:egpCircle(51,vec2(0,0)+Warnings_Position,vec2(25,25))
+EGP:egpColor(51,vec(102,0,0))
+
+EGP:egpCircle(52,vec2(60,0)+Warnings_Position,vec2(25,25))
+EGP:egpColor(52,vec(102,0,0))
+
+
+EGP:egpText(60,"SLIP",vec2(-74,-6)+Warnings_Position)
+EGP:egpSize(60,15)
+EGP:egpColor(60,vec(0))
+
+EGP:egpText(62,"EMG",vec2(-13,-6)+Warnings_Position)
+EGP:egpSize(62,15)
+EGP:egpColor(62,vec(0))
+
+EGP:egpText(63,"BRAKE",vec2(40,-6)+Warnings_Position)
+EGP:egpSize(63,15)
+EGP:egpColor(63,vec(0))
+
+for(N=50,69){EGP:egpParent(N,1)}
+}
+
+# THIRD PERSON MECHANIC
+
+if(ThirdPersonOnly==1){
+if(ThirdPerson==0){
+for(N=1,100){
+EGP:egpAlpha(N,0)
+}}elseif(ThirdPerson==1){
+for(N=1,100){
+EGP:egpAlpha(N,255)
+}
+EGP:egpAlpha(1,WindowAlpha)
+EGP:egpAlpha(2,WindowAlpha)
+}}
+
+
+
+# RESOLUTION OFFSET
+
+
+# INFORMATION DISPLAY  
+
+#speed
+if(MPH_or_KPH==0){
+Speed=MPH
+EGP:egpSetText(12,"Speed: "+Speed+" MPH")
+}
+if(MPH_or_KPH==1){
+Speed=KPH
+EGP:egpSetText(12,"Speed: "+Speed+" KPH")
+}
+if(MPH_or_KPH==2){
+EGP:egpSetText(12,"Speed: "+MPH+" MPH, "+KPH+" KPH")
+EGP:egpPos(12,vec2(-75,-225))
+}
+#brake string stuff
+MR=toString(MainRes)
+ER=toString(EqRes)
+BP=toString(BrakePipe)
+BC=toString(BrakeCylinder)
+
+#throttle
+EGP:egpSetText(20,"Throttle: "+Throttle*10+"%")
+EGP:egpSetText(21,"Cutoff: "+Reverser*100+"%")
+#brake
+EGP:egpSetText(31,"Main Res.: "+MR+" PSI")
+EGP:egpSetText(32,"Equalizing Res.: "+ER+" PSI")
+EGP:egpSetText(33,"Brake Pipe: "+BP+" PSI")
+EGP:egpSetText(34,"Brake Cylinder: "+BC+" PSI")
+#steam
+EGP:egpSetText(71,"Boiler Pressure: "+Steam+" PSI")
+EGP:egpSetText(72,"Water Level: "+Water+"%")
+EGP:egpSetText(73,"Coal Level: "+Coal+"%")
+EGP:egpSetText(74,"Temperature: "+Temp+" Degrees")
+
+#slip warning
+if(Slip>1){
+EGP:egpColor(50,vec(255,153,0))}
+else{
+EGP:egpColor(50,vec(120,63,4))}
+#ebrake warning
+if(Emergency==1){
+EGP:egpColor(51,vec(255,0,0))}
+else{
+EGP:egpColor(51,vec(102,0,0))}
+#you didn't turn off your brakes, stupid
+if(Throttle>1&BrakeCylinder>1&MPH==0){
+EGP:egpColor(52,vec(255,0,0))}
+else{
+EGP:egpColor(52,vec(102,0,0))}
