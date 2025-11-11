@@ -1,6 +1,6 @@
 # Pepsi-s-Plenty-O-Parts
 
 
-Pepsi's Plenty-O-Parts is intended to be where I release all my public Gmod E2s and maybe dupes if I feel inclined. 
+Pepsi's Pack of Plenty is were I will be releasing my public E2s, Dupes, and Tutorials for Garry's Mod Trainbuild.
 
-Curreently just a random assortment of cab, external, other parts and whatever I pull out of thin air that I think would be cool
+Everything you see in this pack is free to use, my only stipulation is that I am credited appropriatley. Otherwise, have fun.
