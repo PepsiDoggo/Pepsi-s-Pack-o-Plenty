@@ -1,0 +1,147 @@
+@name Pepsi's Steam Headlamp & Spritecore Light v0.7
+@inputs On Lamp:wirelink NumbIn:string
+@outputs 
+@persist Num:string
+@persist NumberColor:vector NumberLitColor:vector
+@trigger On
+@model models/sprops/cuboids/height06/size_1/cube_6x6x6.mdl
+
+#[
+####----INSTRUCTIONS----####
+1 - Spawn an UNROPED lamp on the ground and freeze it
+2 - Wire Lamp:wirelink to the lamp
+3 - Refresh the E2
+4 - Wire On to anything of your choosing. E.g: Button, numpad, E2 output. 
+That's all!
+]#
+
+if(first() | dupefinished()){
+
+####----CONFIG----####
+
+DisableNumberboard=0 # What it says on the tin.
+DisableVisor=0 # Also self explanatory.
+
+Number=1234 #What number to display on the numberboards 
+NumberScale=0.7 # How big are the numbers?
+NumberColor=vec(255)
+NumberLitColor=vec(255,230,200)
+
+Font="fonts/sp_roman1/" # What font the numbers will be   
+
+Color=vec(255,230,170) #-Color of the sprites and lamp light.
+LampColor=vec(36) #-Color of the actual lamp model
+BaseMat="models/proppertextures/acrylic" #-Material of the light body
+
+####----DONT MESS WITH ANYTHING UNDER THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING----####
+
+
+    
+#ENTTIY & VARIABLE DECLARATION
+    
+E=entity()
+E:setAlpha(0)
+LE=Lamp:entity()
+
+A=1
+holoCreate(A),holoParent(A, E)
+holoModel(A,"models/zexciv_train_stuff/misc/lamps/lamp_1.mdl")  
+holoPos(A,E:toWorld(vec(6,0,0)))
+holoMaterial(A,""),holoColor(A,LampColor)
+holoEntity(A):setSubMaterial(2,BaseMat)
+
+A=2
+holoCreate(A),holoParent(A, E)
+holoModel(A,"models/rika/part/numberboard/rs3_road_type3.mdl") 
+holoScale(A,vec(NumberScale)) 
+holoAng(A,E:toWorld(ang(90,61,0)))
+holoPos(A,E:toWorld(vec(-3.25,9.25,-0.75)))
+holoEntity(A):setSubMaterial(1,"gulch/invisible")
+holoEntity(A):setSubMaterial(2,"gulch/invisible")
+holoEntity(A):setSubMaterial(3,"gulch/invisible")
+holoEntity(A):setSubMaterial(4,"gulch/invisible")
+#holoBodygroup(A,5,2)
+#holoBodygroup(A,6,2)
+
+A=3
+holoCreate(A),holoParent(A, E)
+holoModel(A,"models/rika/part/numberboard/rs3_road_type3.mdl") 
+holoScale(A,vec(NumberScale)) 
+holoAng(A,E:toWorld(ang(90,-61,0)))
+holoPos(A,E:toWorld(vec(-3.25,-9.25,-0.75)))
+holoEntity(A):setSubMaterial(1,"gulch/invisible")
+holoEntity(A):setSubMaterial(2,"gulch/invisible")
+holoEntity(A):setSubMaterial(3,"gulch/invisible")
+holoEntity(A):setSubMaterial(4,"gulch/invisible")
+
+if(DisableNumberboard){
+holoDelete(2)
+holoDelete(3) 
+}
+
+holoBodygroup(1,3,DisableNumberboard)  
+holoBodygroup(1,2,DisableVisor)   
+
+#WIRELINK
+
+
+
+LPos=E:toWorld(vec(5,0,0))
+LAng=E:toWorld(ang(0,0,0))
+LE:setPos(LPos)
+LE:setAng(LAng)
+LE:parentTo(E)
+LE:setAlpha(0)
+Lamp["RGB",vector]=Color
+Lamp["Brightness",number]=1
+Lamp["Distance",number]=2048
+
+L=1
+spriteSpawn(L,"sprites/headlight_01",E:toWorld(vec(6,0,0)),Color,255,0.225,E)
+L=2
+spriteSpawn(L,"sprites/headlight_01",E:toWorld(vec(0,0,0)),Color,255,0.05,E)
+spriteSetRendermode(L,3)
+L=3
+spriteSpawn(L,"models/proppertextures/lightglow_warmwhite",E:toWorld(vec(0,0,0)),Color,255,0.015,E)
+spriteSetRendermode(L,3)
+
+Num=toString(Number)
+
+if(NumbIn){
+Num=NumbIn   
+}
+
+holoBodygroup(2,1,Num:length()-1)
+holoBodygroup(3,1,Num:length()-1)
+
+holoEntity(2):setSubMaterial(5,Font+Num[1])
+holoEntity(2):setSubMaterial(6,Font+Num[2])
+holoEntity(2):setSubMaterial(7,Font+Num[3])
+holoEntity(2):setSubMaterial(8,Font+Num[4])
+
+holoEntity(3):setSubMaterial(5,Font+Num[1])
+holoEntity(3):setSubMaterial(6,Font+Num[2])
+holoEntity(3):setSubMaterial(7,Font+Num[3])
+holoEntity(3):setSubMaterial(8,Font+Num[4])
+#print(Num:length():toString())
+
+}
+
+holoDisableShading(2,On)
+holoDisableShading(3,On)
+
+Lamp["On",number]=On
+
+if(On){
+holoColor(2,NumberLitColor)
+holoColor(3,NumberLitColor)    
+}else{
+holoColor(2,NumberColor) 
+holoColor(3,NumberColor)   
+}
+
+spriteEnable(1,On)
+spriteEnable(2,On)
+spriteEnable(3,On)
+
+holoEntity(1):setSkin(On)
